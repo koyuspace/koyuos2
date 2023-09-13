@@ -1,0 +1,39 @@
+body {
+  background: #223 !important;
+  color: #fff;
+  font-family: sans-serif;
+  border-top: 16px solid #fe53e1;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  font-size: 56pt;
+  text-align: center;
+  padding-top: 120px;
+}
+
+.nextbutton {
+  text-align: center;
+  border-radius: 50%;
+  padding: 8px;
+  border: 1px solid #fff;
+  width: 72px;
+  height: 72px;
+  vertical-align: middle;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.biginput {
+  background: #fff;
+  color: #333;
+  font-size: 48pt;
+  padding: 32px;
+  border-radius: 50px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  border: 0;
+  outline: 0;
+}
