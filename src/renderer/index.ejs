@@ -77,7 +77,7 @@
         $("#app").hide();
         $("#appstore").show();
         $("#appstore").html("<h1>App Store</h1>");
-        appstoreApps = ["duckduckgo.com", "soundcloud.com", "web.skype.com", "web.snapchat.com", "youtube.com", "facebook.com", "twitter.com", "instagram.com", "reddit.com", "twitch.tv"];
+        appstoreApps = ["duckduckgo.com", "soundcloud.com", "web.skype.com", "web.snapchat.com", "youtube.com", "facebook.com", "twitter.com", "instagram.com", "reddit.com", "twitch.tv", "chat.koyu.space", "yt.koyu.space", "web.telegram.org", "kopimi.space", "mail.koyu.space", "yahoo.com", "mail.google.com", "outlook.com", "drive.google.com", "www.office.com"];
         appstoreApps.forEach(domain => {
           $("#appstore").append('<img src="http://localhost:8080/favicon/' + domain + '" alt="' + domain + '" class="app" id="install-' + domain.replaceAll(".", "-") + '">');
           $("#install-" + domain.replaceAll(".", "-")).on("click", () => {

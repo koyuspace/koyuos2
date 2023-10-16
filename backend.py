@@ -6,10 +6,14 @@ try:
   import requests
   import json
   import subprocess
+  import os.path
 except ImportError:
   os.system("sudo apt install python3-pip python3-bs4 python3-requests --yes")
   os.system("pip install bottle --user --break-system-packages")
   os.system("python3 backend.py")
+
+if not os.path.exists(os.path.expanduser("~/.cache/koyuos")):
+  os.makedirs(os.path.expanduser("~/.cache/koyuos"))
 
 @post("/loaded")
 def loaded():
@@ -65,14 +69,24 @@ def favicon(domain):
     except:
       favicon = None
   if favicon == None:
+    try:
+      favicon = soup.find("link", rel="shortcut icon")["href"]
+    except:
+      favicon = None
+  if favicon == None:
     favicon = "https://"+domain+"/favicon.ico"
   if favicon.startswith("//"):
     favicon = "https:"+favicon
   if favicon.startswith("/"):
     favicon = "https://"+domain+favicon
+  if not favicon.startswith("http"):
+    favicon = "https://"+domain+"/"+favicon
   homedir = os.path.expanduser("~")
-  subprocess.Popen(["wget", favicon, "-O", os.path.join(homedir, ".cache/favicon.png")]).wait()
-  return static_file("favicon.png", root=os.path.join(homedir, ".cache"))
+  iconid = domain.replace(".", "-")
+  iconpath =  os.path.join(homedir, ".cache/koyuos/" + iconid + ".png")
+  if not os.path.exists(iconpath):
+    subprocess.Popen(["wget", favicon, "-O", iconpath]).wait()
+  return static_file(iconid + ".png", root=os.path.join(homedir, ".cache/koyuos"))
 
 @get("/launch/<domain>")
 def launchdomain(domain):
