@@ -24,7 +24,7 @@ def loaded():
 def setkbmap():
   kbmap = request.forms.get("kbmap")
   os.system("setxkbmap " + kbmap)
-  os.system("sudo raspi-config nonint do_keyboard_layout " + kbmap)
+  os.system("sudo raspi-config nonint do_configure_keyboard " + kbmap)
   return "ok"
 
 @post("/shutdown")
