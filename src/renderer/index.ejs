@@ -27,5 +27,78 @@
     function reboot() {
       $.post("http://localhost:8080/reboot", {}, () => {});
     }
+    function editmode() {
+      if (localStorage.getItem("editMode") == "true") {
+        localStorage.setItem("editMode", "false");
+      } else {
+        localStorage.setItem("editMode", "true");
+        $("#editMode").html("Edit Mode: On");
+      }
+      loadApps();
+    }
+    function loadApps() {
+      let editMode = false;
+      if (localStorage.getItem('editMode') !== null) {
+        if (localStorage.getItem('editMode') === 'true') {
+          editMode = true;
+        } else {
+          editMode = false;
+        }
+      }
+      let apps = localStorage.getItem('apps');
+      if (apps === null) {
+        apps = '["duckduckgo.com", "web.whatsapp.com", "web.skype.com", "web.snapchat.com", "youtube.com", "facebook.com", "twitter.com", "instagram.com", "reddit.com", "twitch.tv"]';
+        localStorage.setItem('apps', apps);
+      }
+      const appsArr = JSON.parse(apps);
+      $("#apps").html("");
+      appsArr.forEach(domain => {
+        let id = domain.replaceAll(".", "-");
+        let crossIcon = '<span class="delete-app" id="delete-' + id + '">x</span>';
+        let crossCss = '<style>#delete-' + id + ' { vertical-align: top; cursor: pointer; margin-left: -20px; margin-top: 8px; margin-right: 10px; color: red; font-family: "Fira Code"; }</style>';
+        $("#apps").append('<img src="http://localhost:8080/favicon/' + domain + '" alt="' + domain + '" class="app" id="' + id + '">');
+        $("#" + id).on("click", () => {
+          $.get("http://localhost:8080/launch/" + domain, () => {});
+        });
+        if (editMode) {
+          $("#apps").append(crossIcon);
+          $("#apps").append(crossCss);
+          $("#delete-" + id).on("click", () => {
+            if (confirm("Do you really want to delete this app?")) {
+              appsArr.splice(appsArr.indexOf(domain), 1);
+              localStorage.setItem("apps", JSON.stringify(appsArr));
+              loadApps();
+            }
+          });
+        }
+      });
+      $("#apps").append('<div class="clear"></div><br><br><img src="http://localhost:8080/favicon/apps.apple.com" alt="App Store" class="app" id="app-store">');
+      $("#app-store").on("click", () => {
+        $("#app").hide();
+        $("#appstore").show();
+        $("#appstore").html("<h1>App Store</h1>");
+        appstoreApps = ["duckduckgo.com", "soundcloud.com", "web.skype.com", "web.snapchat.com", "youtube.com", "facebook.com", "twitter.com", "instagram.com", "reddit.com", "twitch.tv"];
+        appstoreApps.forEach(domain => {
+          $("#appstore").append('<img src="http://localhost:8080/favicon/' + domain + '" alt="' + domain + '" class="app" id="install-' + domain.replaceAll(".", "-") + '">');
+          $("#install-" + domain.replaceAll(".", "-")).on("click", () => {
+            if (confirm("Do you really want to add this app?")) {
+              if (!appsArr.includes(domain)) {
+                appsArr.push(domain);
+                localStorage.setItem("apps", JSON.stringify(appsArr));
+                loadApps();
+              } else {
+                alert("This app is already installed!");
+              }
+            }
+          });
+        });
+        $("#appstore").append("<br><br><div id=\"store-back\">&lt; Back</div>");
+        $("#store-back").css("cursor", "pointer");
+        $("#store-back").on("click", () => {
+          $("#appstore").hide();
+          $("#app").show();
+        });
+      });
+    }
   </script>
 </html>

@@ -57,3 +57,30 @@ li {
   text-align: center;
   margin: 30px;
 }
+
+#apps {
+  text-align: center;
+}
+
+.app {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+#menu li {
+  float: right;
+  list-style: none;
+  margin: 32px;
+}
+
+.clear {
+  clear: both;
+}
+
+#appstore {
+  text-align: center;
+  padding: 20px;
+}
