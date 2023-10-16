@@ -90,7 +90,7 @@ def favicon(domain):
 
 @get("/launch/<domain>")
 def launchdomain(domain):
-  os.system("chromium --app=https://" + domain + " --kiosk")
+  os.system("/usr/lib/chromium-browser/chromium-browser --app=https://" + domain + " --kiosk")
   return "ok"
 
 run(host="localhost", port=8080)
